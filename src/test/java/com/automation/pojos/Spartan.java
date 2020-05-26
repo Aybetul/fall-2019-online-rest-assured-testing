@@ -25,7 +25,7 @@ public Spartan( String name, String gender, long phoneNumber){
         this.id=id;
        this.name=name;
         this.gender=gender;
-        this.phoneNumber=phoneNumber;
+       setPhoneNumber(phoneNumber);
     }
 public  Spartan(){
 
@@ -45,6 +45,27 @@ public  Spartan(){
     public long getPhoneNumber() {
         return phoneNumber;
 }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void setPhoneNumber(long phoneNumber) {
+
+        if (String.valueOf(phoneNumber).length() < 10){
+            throw  new RuntimeException("Phone number is too short!");
+        }
+
+        this.phoneNumber = phoneNumber;
+    }
 
     @Override
     public String toString() {
