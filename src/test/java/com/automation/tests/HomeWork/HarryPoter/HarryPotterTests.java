@@ -86,7 +86,7 @@ Verify number of character id and house
   "Gryffindor", "Ravenclaw", "Slytherin", "Hufflepuff"
  */
 @Test
-public void IdAndHouse(){ //son kisim gecmedi
+public void IdAndHouse(){
     Response response=given().contentType(ContentType.JSON).queryParam("key", API_key).
             when().get("/characters").prettyPeek();
     response.then().statusCode(200).contentType(ContentType.JSON);
@@ -102,13 +102,16 @@ public void IdAndHouse(){ //son kisim gecmedi
         assertTrue(bool == true | bool == false);
 
 
-       List<Map<String,?>> list= response.getBody().jsonPath().getList("");
+       List<Map<String,Object>> list= response.getBody().jsonPath().getList("");
+List<String> houseList= new ArrayList<>(Arrays.asList("Gryffindor","Ravenclaw", "Slytherin", "Hufflepuff"));
 
-        if(list.get(i).containsKey("house")) {
-          //  String house = response.getBody().jsonPath().getString("[" + i + "].house");
-          String house=list.get(i).get("house").toString();
-            assertTrue(house.equals("Gryffindor") || house.equals("Ravenclaw") || house.equals("Slytherin") || house.equals("Hufflepuffr"));
-        }
+
+            if (list.get(i).containsKey("house")) {
+                String house = list.get(i).get("house").toString();
+
+                assertTrue(houseList.contains(house));
+            }
+
     }
 }
 /*
