@@ -274,14 +274,20 @@ int size=response1.getBody().jsonPath().getList("").size();
     //4.Verify that response contains the same member ids from step 2
     assertTrue(collectId.containsAll(idAll));
 }
-
+/*
+Verify house with most members
+1.Send a get request to /houses. Request includes :
+•Header Accept with value application/json•Query param key with value {{apiKey}}
+2.Verify status code 200, content type application/json; charset=utf-8
+3.Verify that Gryffindor house has the most members
+ */
 @Test
     public void MostMembers() {
     Response response = given().queryParam("key", API_key).contentType(ContentType.JSON).
             when().get("/houses").prettyPeek();
     response.then().statusCode(200).contentType(ContentType.JSON);
 
-
+//create map put names and member size in to map
     Map<String, Integer> map = new TreeMap<>();
     int size = response.getBody().jsonPath().getList("").size();
     for (int i = 0; i < size; i++) {
@@ -292,6 +298,19 @@ int size=response1.getBody().jsonPath().getList("").size();
     }
     System.out.println(map);
 
+    //use entryset to iter over map and find Gryffindor members
+    int GMembers=0;
+    for (Map.Entry<String,Integer> each : map.entrySet())
+   if(  each.getKey().equals("Gryffindor")){
+        GMembers=each.getValue();
+   }
+    System.out.println(GMembers);
+
+// verify Gryffindor has more members
+    for (Map.Entry<String,Integer> each : map.entrySet()){
+        if(  each.getKey().equals("Gryffindor")) continue;
+        assertTrue(GMembers>each.getValue());
+        }
 
 }
 
